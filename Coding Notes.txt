@@ -1,0 +1,113 @@
+CODING NOTES
+--------------------------------
+Sudo = Admin
+Array = List of things
+Const = you can ONLY read the variable, not write on it
+Var = a variable; variables 
+Let = you can read AND write to the variable
+Switch statements = an easier way of writing if: else statements
+Break = it tells the code to move on from a switch statement or an if else statement, so that it doesn't loop forever.
+
+// = a single line comment
+/* = a multi line comment
+
+
+
+Constants
+---------------------------------
+
+		0  1  2
+		|  |  |
+		|  |  |
+const numbers = [2,4,6]
+
+numbers[0] + numbers[2] = 8    //2 + 6 = 8
+
+numbers[3] = undefined    //because there is no 3rd number in the array
+
+const x = numbers[3]+numbers[2] = error    //undefined + 6
+
+
+
+Objects
+---------------------------------
+
+name: "Gray"
+favorite_color: "cyan"
+age: 16
+
+object_gray.name = "Gray"
+
+const gray = {name:"gray",favorite_color:"cyan",age:16}
+
+//DONT put numbers in quotes because it will turn the number into a string instead of leaving it as a number
+
+
+const people = [{name:"Gray",age:16},{name:"Lin",age:17}]
+
+
+Expression: includes addition, subtraction, multiplication, etc
+
+
+
+
+Loops
+---------------------------------
+
+numbers.forEach(number => number++)    //++ is an increment operator to add 1 ONLY
+
+//Since this function is a loop, this function points to each number in an array until it gets to the end of the list. If you want to add one to each number, you use the ++ operator.
+
+
+
+
+Drawing objects
+---------------------------------
+
+const game_objects = [{type:danmaku,x:200,y:50},{type:danmaku,x:500,y:50},{type:danmaku,x:750,y:100},{type:hero,x:500,y:400}]  //the screen will be 1000 by 450
+
+game_objects.forEach (game_objects => draw(game_object));        //the semicolon is meant to end the statement, and move on to the next line of code.
+
+// the command "draw" makes the danmaku appear at it's exact x and y coordinate.
+
+
+Functions
+---------------------------------
+//let's say we have...
+
+danmaku.png
+hero.png
+
+
+function draw(game_object), randomizeLocation){       // randomize is a boolean.
+	if(randomLocation){
+		game_objext.x = Math.rand(1000)   // the statment Math.rand(1000) means that it chooses a random number between 0 and 1000
+		game_object.y = Math.rand(450)
+	}
+	Let element = createElement();   //this creates a little box on the page
+	element.setImage(game_object.type+".png");
+	element.setX(game_object.x);
+	element.setY(game_object.y);
+}
+
+Switch statements
+---------------------------------
+
+Let number = 23
+
+switch(number)
+{ case 10: // if yes, do this, then break
+
+
+switch(type)
+{
+case "danmaku":
+case "danmaku2":
+   |---> do this for both cases
+break;
+
+case "hero":
+   |---> do this for hero
+break;
+
+}
