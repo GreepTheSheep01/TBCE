@@ -1,11 +1,13 @@
-	// initialize global
+	// initialize globals
 	let objects = [];
 	const OBJECT_WIDTH = 100;
 	const OBJECT_HEIGHT = 100;
 	class Element{
-	  constructor(id) {
+
+	  constructor(id){
 		this.id = id;
 	  }
+
 	  setImage(type){
 		let url = "";
 		switch(type){
@@ -24,43 +26,27 @@
 		  default:
 			url = ""; // console.error("invalid type specified")
 			break;
+	  	}
+
+	  	document.getElementById(this.id).style.background = "url('"+url+"')";
+
+	    if (type == "danmaku"){
+			let randomSize = Math.random(Date.now())*(100)
+			document.getElementById(this.id).style.backgroundSize = randomSize+"px"+" "+randomSize+"px";
+			document.getElementById(this.id).style.width=randomSize+"px"
+			document.getElementById(this.id).style.height=randomSize+"px"
 		}
 
-	document.getElementById(this.id).style.background = "url('"+url+"')";
-
-		if (type == "danmaku"){
-	   
-	   let randomWidth = Math.random(Date.now())*(100)
-	   let randomHeight = Math.random(Date.now())*(100)
-		
-		document.getElementById(this.id).style.backgroundSize = randomWidth+"px"+" "+randomWidth+"px";
-		
-		document.getElementById(this.id).style.width=randomWidth+"px"
-	document.getElementById(this.id).style.height=randomWidth+"px"
-
+		else if (type == "cirno"){
+			let randomSize = Math.random(Date.now())*(100)
+			document.getElementById(this.id).style.backgroundSize = randomSize+"px"+" "+randomSize+"px";
+			document.getElementById(this.id).style.width=randomSize+"px"
+			document.getElementById(this.id).style.height=randomSize+"px"
+		}
+		else {
+			document.getElementById(this.id).style.backgroundSize = "100px 100px";
+		}
 	}
-
-	else if (type == "cirno"){
-
-	   let randomWidth = Math.random(Date.now())*(100)
-	   let randomHeight = Math.random(Date.now())*(100)
-		
-		 document.getElementById(this.id).style.backgroundSize = randomWidth+"px"+" "+randomWidth+"px";
-		
-		document.getElementById(this.id).style.width=randomWidth+"px"
-	document.getElementById(this.id).style.height=randomWidth+"px"
-
-	}
-
-	else {
-
-	 document.getElementById(this.id).style.backgroundSize = "100px 100px";
-
-	}
-
-
-
-	  }
 	  setX(x){
 		document.getElementById(this.id).style.position="absolute"
 		document.getElementById(this.id).style.left = x + "px"
@@ -78,31 +64,29 @@
 		return new Element(newId)
 	}
 	function draw(game_object, randomizeLocation){
-	  // 2. Now create element like our example
-	  let element = createElement();
+		// 2. Now create element like our example
+		let element = createElement();
 		element.setImage(game_object.type);
-	  if (game_object.type == "danmaku"){
-		game_object.x = Math.floor(Math.random(Date.now())*(500 - OBJECT_HEIGHT))
-		game_object.y = Math.floor(Math.random(Date.now())*(370 - OBJECT_WIDTH))
-		
-	  }
-	  
-	  else if (game_object.type == "cirno"){
-	  
-		game_object.x = Math.floor(Math.random(Date.now())*(500 - OBJECT_HEIGHT))
-		game_object.y = Math.floor(Math.random(Date.now())*(370 - OBJECT_WIDTH))
-	  
-	  }
-	  
+		if (game_object.type == "danmaku"){ // TODO: make a switch instead
+			game_object.x = Math.floor(Math.random(Date.now())*(500 - OBJECT_HEIGHT))
+			game_object.y = Math.floor(Math.random(Date.now())*(370 - OBJECT_WIDTH))
+		}
+		else if (game_object.type == "cirno"){
+			game_object.x = Math.floor(Math.random(Date.now())*(500 - OBJECT_HEIGHT))
+			game_object.y = Math.floor(Math.random(Date.now())*(370 - OBJECT_WIDTH))
+		}
 		element.setX(game_object.x);
-	  element.setY(game_object.y);
-	 }
-	// YOUR CODE HERE like our example we worked through
+		element.setY(game_object.y);
+	}
 	// Building the Array of objects
 	const game_objects = [
-	{type:"danmaku",
-	 x:200, y:50}, {type:"danmaku", x:500, y:50}, {type:"danmaku", x:750,
-	y:100}, {type:"danmaku", x:750, y:100}, {type: "hero", x:250, y:300}, {type: "miku", x:100,y:20},{type:"cirno",x:50,y:80}
+		{type:"danmaku", x:200, y:50},
+		{type:"danmaku", x:500, y:50},
+		{type:"danmaku", x:750, y:100},
+		{type:"danmaku", x:750, y:100},
+		{type: "hero", x:250, y:300},
+		{type: "miku", x:100,y:20},
+		{type:"cirno",x:50,y:80}
 	]
 	// Loop through objects
 	game_objects.forEach(game_object => draw(game_object, true));
