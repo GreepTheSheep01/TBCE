@@ -64,9 +64,9 @@
         document.getElementById("canvas").innerHTML += newDiv;
         game_object.element = new Element(newId)
 
-if (game_object.type=='hero'){
-	document.getElementById(game_object.element.id).onkeydown=handlemovement
-}
+		if (game_object.type=='hero'){
+			document.onkeydown=handlemovement
+		}
         return
     }
 	function draw(game_object, randomizeLocation){
