@@ -31,20 +31,22 @@
 	  	document.getElementById(this.id).style.background = "url('"+url+"')";
 
 	    if (type == "danmaku"){
-			let randomSize = Math.random(Date.now())*(100)
+			let randomSize = Math.random(Date.now())*(75) +25
 			document.getElementById(this.id).style.backgroundSize = randomSize+"px"+" "+randomSize+"px";
 			document.getElementById(this.id).style.width=randomSize+"px"
 			document.getElementById(this.id).style.height=randomSize+"px"
 		}
 
 		else if (type == "cirno"){
-			let randomSize = Math.random(Date.now())*(100)
+			let randomSize = Math.random(Date.now())*(75) +25
 			document.getElementById(this.id).style.backgroundSize = randomSize+"px"+" "+randomSize+"px";
 			document.getElementById(this.id).style.width=randomSize+"px"
 			document.getElementById(this.id).style.height=randomSize+"px"
 		}
 		else {
-			document.getElementById(this.id).style.backgroundSize = "100px 100px";
+			document.getElementById(this.id).style.backgroundSize = "80px 80px";
+			document.getElementById(this.id).style.width="80px"
+			document.getElementById(this.id).style.height="80px"
 		}
 	}
 	  setX(x){
@@ -68,25 +70,28 @@
 		let element = createElement();
 		element.setImage(game_object.type);
 		if (game_object.type == "danmaku"){ // TODO: make a switch instead
-			game_object.x = Math.floor(Math.random(Date.now())*(500 - OBJECT_HEIGHT))
-			game_object.y = Math.floor(Math.random(Date.now())*(370 - OBJECT_WIDTH))
+			game_object.x = Math.floor(Math.random(Date.now())*(1000 - OBJECT_HEIGHT))
+			game_object.y = Math.floor(Math.random(Date.now())*(540 - OBJECT_WIDTH))
 		}
 		else if (game_object.type == "cirno"){
-			game_object.x = Math.floor(Math.random(Date.now())*(500 - OBJECT_HEIGHT))
-			game_object.y = Math.floor(Math.random(Date.now())*(370 - OBJECT_WIDTH))
+			game_object.x = Math.floor(Math.random(Date.now())*(1000 - OBJECT_HEIGHT))
+			game_object.y = Math.floor(Math.random(Date.now())*(540 - OBJECT_WIDTH))
+		}
+		else if (game_object.type == "hero"){
+				game_object.x = Math.floor(Math.random(Date.now())*(1000 - OBJECT_HEIGHT))
 		}
 		element.setX(game_object.x);
 		element.setY(game_object.y);
 	}
 	// Building the Array of objects
 	const game_objects = [
-		{type:"danmaku", x:200, y:50},
-		{type:"danmaku", x:500, y:50},
-		{type:"danmaku", x:750, y:100},
-		{type:"danmaku", x:750, y:100},
-		{type: "hero", x:250, y:300},
-		{type: "miku", x:100,y:20},
-		{type:"cirno",x:50,y:80}
+		{type:"danmaku", x:200, y:80},
+		{type:"danmaku", x:900, y:90},
+		{type:"danmaku", x:1200, y:150},
+		{type:"danmaku", x:1200, y:150},
+		{type: "hero", x:250, y:470},
+		{type: "miku", x:10,y:480},
+		{type:"cirno",x:100,y:160}
 	]
 	// Loop through objects
 	game_objects.forEach(game_object => draw(game_object, true));
