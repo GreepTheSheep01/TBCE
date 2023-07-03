@@ -52,6 +52,7 @@
 	  setX(x){
 		document.getElementById(this.id).style.position="absolute"
 		document.getElementById(this.id).style.left = x + "px"
+		// this.x = x
 	  }
 	  setY(y){
 		document.getElementById(this.id).style.position="absolute"
@@ -100,6 +101,3 @@
 	]
 	// Loop through objects
 	game_objects.forEach(game_object => draw(game_object, true));
-
-
-
