@@ -67,14 +67,7 @@
 		if (game_object.type=='hero'){
 			document.onkeydown=handlemovement
 		}
-        return
-    }
-	function draw(game_object, randomizeLocation){
-		// 2. Now create element like our example
-		if(!game_object.element){
-            createElement(game_object);
-        }
-        let element = game_object.element;
+		let element = game_object.element;
 		element.setImage(game_object.type);
 		if (game_object.type == "danmaku"){ // TODO: make a switch instead
 			game_object.x = Math.floor(Math.random(Date.now())*(1000 - OBJECT_HEIGHT))
@@ -84,9 +77,16 @@
 			game_object.x = Math.floor(Math.random(Date.now())*(1000 - OBJECT_HEIGHT))
 			game_object.y = Math.floor(Math.random(Date.now())*(540 - OBJECT_WIDTH))
 		}
+        return
+    }
+	function draw(game_object, randomizeLocation){
+		// 2. Now create element like our example
+		if(!game_object.element){
+            createElement(game_object);
+        }
 		
-		element.setX(game_object.x);
-		element.setY(game_object.y);
+		game_object.element.setX(game_object.x);
+		game_object.element.setY(game_object.y);
 	}
 	// Building the Array of objects
 	const game_objects = [

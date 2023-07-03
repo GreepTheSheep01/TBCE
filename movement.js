@@ -12,8 +12,12 @@ function handlemovement(event) {
          game_objects.forEach(game_object => draw(game_object, true));
        text += "move miku left"; break;
      case "ArrowUp":
+      game_objects[4].y=game_objects[4].y-5; 
+       game_objects.forEach(game_object => draw(game_object, true));
        text += "move miku up"; break;
      case "ArrowDown":
+      game_objects[4].y=game_objects[4].y+5; 
+       game_objects.forEach(game_object => draw(game_object, true));
        text += "move miku down"; break;
     }
   
