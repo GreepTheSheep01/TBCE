@@ -100,4 +100,16 @@
 		{id:7,type:"cirno",x:100,y:160}
 	]
 	// Loop through objects
+
+let danmakuToMove = game_objects.forEach(game_object => {
+
+	if (game_object.type == "danmaku")
+		setInterval(function(){moveDanmaku(game_object)}, 50);//every second
+})
+function moveDanmaku(danmakuToMove){
+	console.log(danmakuToMove)
+	danmakuToMove.x=danmakuToMove.x+10;; //do whatever we need to move danmaku
+	game_objects.forEach(game_object => draw(game_object, true));
+}
+
 	game_objects.forEach(game_object => draw(game_object, true));
