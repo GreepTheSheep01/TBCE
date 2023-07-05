@@ -74,6 +74,12 @@
 		{type: "miku", x:10,y:480},
 		{type:"cirno",x:100,y:160}
 	]
+    // set intervals to move danmaku
+    let danmakuToMove = game_objects.forEach(game_object => {
+
+      if (game_object.type == "danmaku")
+        setInterval(function(){moveDanmaku(game_object)}, 50);//every second
+    })
 	// Loop through objects
 	game_objects.forEach(game_object => draw(game_object, true));
 	}
@@ -109,9 +115,16 @@
 		element.setX(game_object.x);
 		element.setY(game_object.y);
 	}
+
+function moveDanmaku(danmakuToMove){
+	console.log(danmakuToMove)
+	danmakuToMove.x=danmakuToMove.x+10;; //do whatever we need to move danmaku
+	game_objects.forEach(game_object => draw(game_object, true));
+}
+
+
  initializeGame({});
 	
-
 
 
 
