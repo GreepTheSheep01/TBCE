@@ -65,41 +65,46 @@
 		document.getElementById("canvas").innerHTML = "";
 
 		// Building the Array of objects
-	game_objects = [
-		{type:"danmaku", x:200, y:80},
-		{type:"danmaku", x:900, y:90},
-		{type:"danmaku", x:1200, y:150},
-		{type:"danmaku", x:1200, y:150},
-		{type: "hero", x:250, y:470},
-		{type: "miku", x:10,y:480},
-		{type:"cirno",x:100,y:160}
-	]
-    // set intervals to move danmaku
-    let danmakuToMove = game_objects.forEach(game_object => {
-
-      if (game_object.type == "danmaku")
-        setInterval(function(){moveDanmaku(game_object)}, 50);//every second
-    })
-	// Loop through objects
-	game_objects.forEach(game_object => draw(game_object, true));
+		game_objects = [
+			{id:1,type:"danmaku", x:200, y:80},
+			{id:2,type:"danmaku", x:900, y:90},
+			{id:3,type:"danmaku", x:1200, y:150},
+			{id:4,type:"danmaku", x:1200, y:150},
+			{id:5,type: "hero", x:250, y:470},
+			{id:6,type: "miku", x:10,y:480},
+			{id:7,type:"cirno",x:100,y:160}
+		]
+		// Loop through objects, first to set an interval for moving bullets, then to draw
+		game_objects.forEach(game_object => {
+			if (game_object.type == "danmaku"){
+				setInterval(function(){moveDanmaku(game_object)}, 1000); // 1000 = every second
+			}
+		})
+		game_objects.forEach(game_object => draw(game_object, true));
 	}
 	function myFunction(e) {
 		initializeGame(e)
 	}
 	
+	function moveDanmaku(danmakuToMove){
+		console.log(danmakuToMove)
+		danmakuToMove.x=danmakuToMove.x+10;; //do whatever we need to move danmaku
+		game_objects.forEach(game_object => draw(game_object, true));
+	}
+
 	var startGame = document.getElementById('resetGameBtn');
 		startGame.onclick = myFunction
 
-	function createElement(){
-		let newId = "object_"+objects.length;
-		let newDiv = '<div id="'+newId+'" class="objOutline"></div>';
-		document.getElementById("canvas").innerHTML += newDiv;
-		objects.push(document.getElementById(newId));
-		return new Element(newId)
-	}
-	function draw(game_object, randomizeLocation){
-		// 2. Now create element like our example
-		let element = createElement();
+	function createElement(game_object){
+		let newId = "object_"+game_object.id;
+        let newDiv = '<div id="'+newId+'" class="objOutline"></div>';
+        document.getElementById("canvas").innerHTML += newDiv;
+        game_object.element = new Element(newId)
+
+		if (game_object.type=='hero'){
+			document.onkeydown=handlemovement
+		}
+		let element = game_object.element;
 		element.setImage(game_object.type);
 		if (game_object.type == "danmaku"){ // TODO: make a switch instead
 			game_object.x = Math.floor(Math.random(Date.now())*(1000 - OBJECT_HEIGHT))
@@ -109,20 +114,17 @@
 			game_object.x = Math.floor(Math.random(Date.now())*(1000 - OBJECT_HEIGHT))
 			game_object.y = Math.floor(Math.random(Date.now())*(540 - OBJECT_WIDTH))
 		}
-		else if (game_object.type == "hero"){
-				game_object.x = Math.floor(Math.random(Date.now())*(1000 - OBJECT_HEIGHT))
-		}
-		element.setX(game_object.x);
-		element.setY(game_object.y);
+        return
 	}
-
-function moveDanmaku(danmakuToMove){
-	console.log(danmakuToMove)
-	danmakuToMove.x=danmakuToMove.x+10;; //do whatever we need to move danmaku
-	game_objects.forEach(game_object => draw(game_object, true));
-}
-
-
+	function draw(game_object, randomizeLocation){
+		// 2. Now create element like our example
+		if(!game_object.element){
+            createElement(game_object);
+        }
+		
+		game_object.element.setX(game_object.x);
+		game_object.element.setY(game_object.y);
+	}
  initializeGame({});
 	
 
