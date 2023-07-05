@@ -71,7 +71,7 @@
 			{id:3,type:"danmaku", x:1200, y:150},
 			{id:4,type:"danmaku", x:1200, y:150},
 			{id:5,type: "hero", x:250, y:470},
-			{id:6,type: "miku", x:10,y:480},
+			{id:6,type: "miku", x:5,y:5},
 			{id:7,type:"cirno",x:100,y:160}
 		]
 		// Loop through objects, first to set an interval for moving bullets, then to draw
