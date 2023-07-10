@@ -1,36 +1,45 @@
+function getHeroObject(){
+  let hero = game_objects.find(game_object => game_object.type == "hero");
+  if(hero === undefined){
+    console.error("something terrible happened, hero is not in the array");
+  }
+  return hero;
+}
+
 function handlemovement(event) {
     
     let text = ''; 
+    let hero = getHeroObject();
     
     switch(event.key){
      case "ArrowRight":
-         game_objects[4].x=game_objects[4].x+10; 
-         if(game_objects[4].x > 1000){
-          game_objects[4].x = 1000
+         hero.x=hero.x+10; 
+         if(hero.x > 360){
+          hero.x = 360
          }
          game_objects.forEach(game_object => draw(game_object, true));
          break;
      case "ArrowLeft":
-      game_objects[4].x=game_objects[4].x-10;
-      if(game_objects[4].x < 0){
-        game_objects[4].x = 0
+      hero.x=hero.x-10;
+      if(hero.x < 0){
+        hero.x = 0
        }
          game_objects.forEach(game_object => draw(game_object, true));
-       text += "move miku left"; break;
+       text += "move hero left"; break;
      case "ArrowUp":
-      game_objects[4].y=game_objects[4].y-10; 
-      if(game_objects[4].y < 0){
-        game_objects[4].y = 0
+      hero.y=hero.y-10; 
+      if(hero.y < 0){
+        hero.y = 0
        }
        game_objects.forEach(game_object => draw(game_object, true));
-       text += "move miku up"; break;
+       text += "move hero up"; break;
      case "ArrowDown":
-      game_objects[4].y=game_objects[4].y+10; 
-      if(game_objects[4].y > 540){
-        game_objects[4].y = 540
+      hero.y=hero.y+10; 
+      if(hero.y > 668){
+        hero.y = 668
        }
        game_objects.forEach(game_object => draw(game_object, true));
-       text += "move miku down"; break;
+       text += "move hero down"; break;
     }
   
   
