@@ -16,13 +16,13 @@
 			url = "https://www.spriters-resource.com/resources/sheet_icons/49/52585.png";
 			break;
 		  case "danmaku":
-			url = "https://www.dlf.pt/png/big/4/49557_bullet-sprite-png.png"
+			url = "https://i.imgur.com/s5WNIAl.png"
 			break;
 		  case "miku":
 			url = "https://pixelartmaker-data-78746291193.nyc3.digitaloceanspaces.com/image/007cb9f291c2090.png"
 			break;
 			case "cirno":
-			url = "https://en.touhouwiki.net/images/a/a9/Touhoudex_2_Cirno.png"
+			url = "https://i.imgur.com/J8C14PQ.png"
 			break;
 		  default:
 			url = ""; // console.error("invalid type specified")
@@ -39,10 +39,9 @@
 		}
 
 		else if (type == "cirno"){
-			let randomSize = Math.random(Date.now())*(75) +25
-			document.getElementById(this.id).style.backgroundSize = randomSize+"px"+" "+randomSize+"px";
-			document.getElementById(this.id).style.width=randomSize+"px"
-			document.getElementById(this.id).style.height=randomSize+"px"
+			document.getElementById(this.id).style.backgroundSize = 85+"px"
+			document.getElementById(this.id).style.width=75+"px"
+			document.getElementById(this.id).style.height=125+"px"
 		}
 		else {
 			document.getElementById(this.id).style.backgroundSize = "80px 80px";
@@ -75,12 +74,37 @@
 			{id:7,type:"cirno",x:100,y:160}
 		]
 		// Loop through objects, first to set an interval for moving bullets, then to draw
-		game_objects.forEach(game_object => {
+		/*game_objects.forEach((game_object, index) => {
 			if (game_object.type == "danmaku"){
-				setInterval(function(){moveDanmaku(game_object)}, 1000); // 1000 = every second
+				setInterval(function(){
+					if (game_object.x > 360){
+						Destroydanmaku(index)
+					} else {
+						moveDanmaku(game_object)
+					}
+				}, 100); // 1000 = every second
 			}
-		})
+		})*/
+		// loop in a better way for this case
+		
+		setInterval(function(){
+			for(var i = game_objects.length; i > 0; i--){
+				const index_to_check = i - 1;
+				const game_object = game_objects[index_to_check];
+				if (game_object.type == "danmaku"){
+					if (game_object.x > 360){
+						Destroydanmaku(index_to_check)
+					} else {
+						moveDanmaku(game_object)
+					}
+				}
+			}
+		}, 100); // 1000 = every second
+
 		game_objects.forEach(game_object => draw(game_object, true));
+	}
+	function Destroydanmaku(index){
+		game_objects.splice(index,1)
 	}
 	function myFunction(e) {
 		initializeGame(e)
@@ -107,12 +131,12 @@
 		let element = game_object.element;
 		element.setImage(game_object.type);
 		if (game_object.type == "danmaku"){ // TODO: make a switch instead
-			game_object.x = Math.floor(Math.random(Date.now())*(1000 - OBJECT_HEIGHT))
-			game_object.y = Math.floor(Math.random(Date.now())*(540 - OBJECT_WIDTH))
+			game_object.x = Math.floor(Math.random(Date.now())*(360 - OBJECT_HEIGHT))
+			game_object.y = Math.floor(Math.random(Date.now())*(668 - OBJECT_WIDTH))
 		}
 		else if (game_object.type == "cirno"){
-			game_object.x = Math.floor(Math.random(Date.now())*(1000 - OBJECT_HEIGHT))
-			game_object.y = Math.floor(Math.random(Date.now())*(540 - OBJECT_WIDTH))
+			game_object.x = Math.floor(Math.random(Date.now())*(360 - OBJECT_HEIGHT))
+			game_object.y = Math.floor(Math.random(Date.now())*(668 - OBJECT_WIDTH))
 		}
         return
 	}
@@ -126,7 +150,3 @@
 		game_object.element.setY(game_object.y);
 	}
  initializeGame({});
-	
-
-
-
