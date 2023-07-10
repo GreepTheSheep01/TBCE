@@ -59,6 +59,10 @@
 	  }
 	}
 	
+	function adddan(){
+		game_objects.splice(0,0,{type: "danmaku", x: 200, y:500})
+    }
+
 	function initializeGame(e){
 		console.log(document.getElementById("canvas").innerHTML)
 		document.getElementById("canvas").innerHTML = "";
@@ -73,6 +77,9 @@
 			{id:6,type: "miku", x:5,y:5},
 			{id:7,type:"cirno",x:100,y:160}
 		]
+
+		adddan()
+
 		// Loop through objects, first to set an interval for moving bullets, then to draw
 		/*game_objects.forEach((game_object, index) => {
 			if (game_object.type == "danmaku"){
@@ -100,8 +107,6 @@
 				}
 			}
 		}, 100); // 1000 = every second
-
-	game_objects.splice(2,0,{type: "danmaku", x: 200, y:500})
 
 		game_objects.forEach(game_object => draw(game_object, true));
 	}
