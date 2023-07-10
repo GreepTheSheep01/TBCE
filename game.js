@@ -111,6 +111,7 @@
 		game_objects.forEach(game_object => draw(game_object, true));
 	}
 	function Destroydanmaku(index){
+		document.getElementById(game_objects[index].element.id).remove()
 		game_objects.splice(index,1)
 	}
 	function myFunction(e) {
