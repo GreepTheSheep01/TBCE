@@ -101,6 +101,8 @@
 			}
 		}, 100); // 1000 = every second
 
+	game_objects.splice(2,0,{type: "danmaku", x: 200, y:500})
+
 		game_objects.forEach(game_object => draw(game_object, true));
 	}
 	function Destroydanmaku(index){
