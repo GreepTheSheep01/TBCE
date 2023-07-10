@@ -1,12 +1,5 @@
 #canvas{
-    width:360px;
-    height:668px;
-    outline: 0.5em;px solid red;
-  }
-  .objOutline{
-    outline: 0.5em;px solid cyan;
-    display:block;
-    width:200px;
-    height:200px;
-    background-size:200px 200px;
-  }
+  width:360px;
+  height:668px;
+  outline:1px solid red;
+}
