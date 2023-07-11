@@ -73,7 +73,7 @@
     }
 
 	function initializeGame(e){
-		console.log(document.getElementById("canvas").innerHTML)
+		//console.log(document.getElementById("canvas").innerHTML)
 		document.getElementById("canvas").innerHTML = "";
 
 		// Building the Array of objects
@@ -82,7 +82,7 @@
 			{id:2,type:"danmaku", x:900, y:90},
 			{id:3,type:"danmaku", x:1200, y:150},
 			{id:4,type:"danmaku", x:1200, y:150},
-			{id:5,type: "hero", x:130, y:590},
+			{id:5,type: "hero", x:130, y:590,health:100},
 			{id:6,type: "miku", x:5,y:5},
 			{id:7,type:"cirno",x:CIRNO_INITIAL_X,y:CIRNO_INITIAL_Y}
 		]
@@ -130,7 +130,7 @@
 	}
 	
 	function moveDanmaku(danmakuToMove){
-		console.log(danmakuToMove)
+		//console.log(danmakuToMove)
 		danmakuToMove.y=danmakuToMove.y+10; //do whatever we need to move danmaku
 		game_objects.forEach(game_object => draw(game_object, true));
 	}
@@ -165,38 +165,39 @@
 		game_object.element.setY(game_object.y);
 	}
 
+function gameObjectElement(game_object){
+	return document.getElementById(game_object.element.id);
+}
 
-	
-
-	const CIRNO_HEIGHT = 100;
-	const MIKU_HEIGHT = 100;
-	const HERO_HEIGHT = 100;
-	const DANMAKU_HEIGHT = 100;
-	const CIRNO_WIDTH = 100;
-	const MIKU_WIDTH = 100;
-	const HERO_WIDTH = 100;
-	const DANMAKU_WIDTH = 100;
 function getWidthByType(game_object){
 	switch(game_object.type){
   	case "danmaku":
+		DANMAKU_WIDTH = gameObjectElement(game_object).offsetWidth;
     	return DANMAKU_WIDTH; // you have to define all of these! let's use a fixed hitbox for now
-    case "hero":            // we can change to using the randomized size later
+    case "hero":  
+		HERO_WIDTH = 100;      // we can change to using the randomized size later
     	return HERO_WIDTH;    // if you want to try that as a challenge, use the .element of game_object
-    case "miku":            // (check console to see what it is) and find size dynamically for $50
+    case "miku":
+		MIKU_WIDTH = 100;       // (check console to see what it is) and find size dynamically for $50
     	return MIKU_WIDTH;
     case "cirno":
+		CIRNO_WIDTH = 100;
     	return CIRNO_WIDTH;
   }
 }
 function getHeightByType(game_object){
 	switch(game_object.type){
   	case "danmaku":
+		DANMAKU_HEIGHT = gameObjectElement(game_object).offsetHeight;
     	return DANMAKU_HEIGHT; // you have to define these!
     case "hero":
+		HERO_HEIGHT = 100;
     	return HERO_HEIGHT;
     case "miku":
+		MIKU_HEIGHT = 100;
     	return MIKU_HEIGHT;
     case "cirno":
+		CIRNO_HEIGHT = 100;
     	return CIRNO_HEIGHT;
   }
 }
@@ -212,6 +213,7 @@ function isCollide(a, b) {
         (a.x > (b.x + b_width))
     );
 }
+
 function checkForCollisions(){
 	// collisions matter between hero and danmaku for the purposes of our game
   // other collisions don't matter
@@ -221,12 +223,15 @@ function checkForCollisions(){
     const danmakuToCheck = danmakus[i];
   	if(isCollide(hero, danmakuToCheck)){
     	//collision happened! handle it any way you want (reduce health, etc)
-      console.log("collision occured between hero and danmaku:", danmakuToCheck);
+		hero.health = hero.health - 10
+      console.log("collision occured between hero and danmaku:", danmakuToCheck, hero.health);
     }
   }
 }
 let collisionInterval = setInterval(function(){
 	checkForCollisions();
-}, 1000) // think about how to manage this when re-starting game (remember the speed thing)
+}, 100) // think about how to manage this when re-starting game (remember the speed thing)
 
  initializeGame({});
+
+ // no <3
