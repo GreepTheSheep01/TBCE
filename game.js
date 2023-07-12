@@ -2,6 +2,7 @@
 	let objects = [];
 	let game_objects = [];
 	let MOVEMENT_INTERVAL = null;
+	let collisionInterval = null;
 	const OBJECT_WIDTH = 100;
 	const OBJECT_HEIGHT = 100;
 	const CIRNO_INITIAL_X = 130
@@ -87,6 +88,8 @@
 			{id:7,type:"cirno",x:CIRNO_INITIAL_X,y:CIRNO_INITIAL_Y}
 		]
 
+		setHealth(getHeroObject(), 100)
+
 		adddan()
 
 		// Loop through objects, first to set an interval for moving bullets, then to draw
@@ -118,6 +121,10 @@
 				}
 			}
 		}, 200); // 1000 = every second
+
+		collisionInterval = setInterval(function(){
+			checkForCollisions();
+		}, 200)
 
 		game_objects.forEach(game_object => draw(game_object, true));
 	}
@@ -230,6 +237,21 @@ function updateHealth(hero, deltaHealth){ //can be negative or positive
 	hero.health += deltaHealth //reduced health?
 	let health = document.getElementById("health")
 	health.value += deltaHealth
+	if (hero.health <= 0){ 
+		endgame()
+	}
+}
+
+function setHealth(hero, newHealth){
+	hero.health = newHealth
+	let health = document.getElementById("health")
+	health.value = newHealth
+}
+
+function endgame(){
+	alert("you suck, restart by clicking start again ")
+	clearInterval(MOVEMENT_INTERVAL)
+	clearInterval(collisionInterval)
 }
 
 function checkForCollisions(){
@@ -255,9 +277,7 @@ function checkForCollisions(){
   }
 }
 
-let collisionInterval = setInterval(function(){
-	checkForCollisions();
-}, 200) // think about how to manage this when re-starting game (remember the speed thing)
+ // think about how to manage this when re-starting game (remember the speed thing)
 
 /* 
 var score = 0;{
