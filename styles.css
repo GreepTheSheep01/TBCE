@@ -3,3 +3,7 @@
   height:668px;
   outline:1px solid red;
 }
+
+.objOutline{
+  outline:2px solid blue;
+}
