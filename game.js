@@ -2,6 +2,7 @@
 	let objects = [];
 	let game_objects = [];
 	let MOVEMENT_INTERVAL = null;
+	let collisionInterval = null;
 	const OBJECT_WIDTH = 100;
 	const OBJECT_HEIGHT = 100;
 	const CIRNO_INITIAL_X = 130
@@ -69,7 +70,7 @@
 	}
 
 	function adddan(){
-		game_objects.splice(0,0,{id: getNewGameObjectId(), type: "danmaku", x: 200, y:500})
+		game_objects.splice(0,0,{id: getNewGameObjectId(), type: "danmaku", x: 0, y:0})
     }
 
 	function initializeGame(e){
@@ -78,14 +79,16 @@
 
 		// Building the Array of objects
 		game_objects = [
-			{id:1,type:"danmaku", x:200, y:80},
-			{id:2,type:"danmaku", x:900, y:90},
-			{id:3,type:"danmaku", x:1200, y:150},
-			{id:4,type:"danmaku", x:1200, y:150},
+			{id:1,type:"danmaku", x:0, y:0, collided:false},
+			{id:2,type:"danmaku", x:0, y:0}, // x and y are randomized for danmaku
+			{id:3,type:"danmaku", x:0, y:0},
+			{id:4,type:"danmaku", x:0, y:0},
 			{id:5,type: "hero", x:130, y:590,health:100},
 			{id:6,type: "miku", x:5,y:5},
 			{id:7,type:"cirno",x:CIRNO_INITIAL_X,y:CIRNO_INITIAL_Y}
 		]
+
+		setHealth(getHeroObject(), 100)
 
 		adddan()
 
@@ -117,7 +120,11 @@
 					}
 				}
 			}
-		}, 100); // 1000 = every second
+		}, 200); // 1000 = every second
+
+		collisionInterval = setInterval(function(){
+			checkForCollisions();
+		}, 200)
 
 		game_objects.forEach(game_object => draw(game_object, true));
 	}
@@ -166,7 +173,9 @@
 	}
 
 function gameObjectElement(game_object){
-	return document.getElementById(game_object.element.id);
+	if(game_object.element){
+		return document.getElementById(game_object.element.id);
+	}
 }
 
 function getWidthByType(game_object){
@@ -175,7 +184,7 @@ function getWidthByType(game_object){
 		DANMAKU_WIDTH = gameObjectElement(game_object).offsetWidth;
     	return DANMAKU_WIDTH; // you have to define all of these! let's use a fixed hitbox for now
     case "hero":  
-		HERO_WIDTH = 100;      // we can change to using the randomized size later
+		HERO_WIDTH = 60;      // we can change to using the randomized size later
     	return HERO_WIDTH;    // if you want to try that as a challenge, use the .element of game_object
     case "miku":
 		MIKU_WIDTH = 100;       // (check console to see what it is) and find size dynamically for $50
@@ -188,10 +197,10 @@ function getWidthByType(game_object){
 function getHeightByType(game_object){
 	switch(game_object.type){
   	case "danmaku":
-		DANMAKU_HEIGHT = gameObjectElement(game_object).offsetHeight;
+		DANMAKU_HEIGHT = gameObjectElement(game_object).offsetHeight || 100;
     	return DANMAKU_HEIGHT; // you have to define these!
     case "hero":
-		HERO_HEIGHT = 100;
+		HERO_HEIGHT = 80;
     	return HERO_HEIGHT;
     case "miku":
 		MIKU_HEIGHT = 100;
@@ -214,6 +223,37 @@ function isCollide(a, b) {
     );
 }
 
+function findGameObjectsIndexById(id){
+	for (var i=1; i<game_objects.length; i++){
+		const game_object = game_objects[i]
+		if(game_object.id == id){
+			return i;
+		}
+	}
+	return -1;
+}
+
+function updateHealth(hero, deltaHealth){ //can be negative or positive
+	hero.health += deltaHealth //reduced health?
+	let health = document.getElementById("health")
+	health.value += deltaHealth
+	if (hero.health <= 0){ 
+		endgame()
+	}
+}
+
+function setHealth(hero, newHealth){
+	hero.health = newHealth
+	let health = document.getElementById("health")
+	health.value = newHealth
+}
+
+function endgame(){
+	alert("you suck, restart by clicking start again ")
+	clearInterval(MOVEMENT_INTERVAL)
+	clearInterval(collisionInterval)
+}
+
 function checkForCollisions(){
 	// collisions matter between hero and danmaku for the purposes of our game
   // other collisions don't matter
@@ -221,17 +261,29 @@ function checkForCollisions(){
   const danmakus = game_objects.filter(game_object => game_object.type === "danmaku");
   for(var i=0; i<danmakus.length; i++){
     const danmakuToCheck = danmakus[i];
-  	if(isCollide(hero, danmakuToCheck)){
-    	//collision happened! handle it any way you want (reduce health, etc)
-		hero.health = hero.health - 10
-      console.log("collision occured between hero and danmaku:", danmakuToCheck, hero.health);
-    }
+	if(!danmakuToCheck.collided){
+		if(isCollide(hero, danmakuToCheck)){
+			//collision happened! handle it any way you want (reduce health, etc)
+			updateHealth(hero, -10)
+			let tryToFindId = findGameObjectsIndexById(danmakuToCheck.id);
+			if(tryToFindId != -1){
+				Destroydanmaku(tryToFindId);
+				adddan()
+			}
+			danmakuToCheck.collided = true;
+			console.log("collision occured between hero and danmaku:", danmakuToCheck, hero.health);
+		}
+	}
   }
 }
-let collisionInterval = setInterval(function(){
-	checkForCollisions();
-}, 100) // think about how to manage this when re-starting game (remember the speed thing)
+
+ // think about how to manage this when re-starting game (remember the speed thing)
+
+/* 
+var score = 0;{
+	if = true;
+	score = +10 
+}
+	*/
 
  initializeGame({});
-
- // no <3
